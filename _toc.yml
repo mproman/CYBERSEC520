@@ -4,9 +4,9 @@ parts:
   - caption: Getting Started
     chapters:
     - file: content/setup/uv
+    - file: content/01_about/index
   - caption: Course Modules
     chapters:
-    - file: content/01_about/index
     - file: content/02_overview/index
     - file: content/03_intro_ml/index
       sections:
@@ -20,3 +20,4 @@ parts:
   - caption: Assignments
     chapters:
     - file: content/assignments/index
+
