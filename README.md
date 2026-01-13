@@ -1,5 +1,7 @@
 # CYBERSEC 520: Machine Learning in Cybersecurity
 
+The course website can be accessed over here - [https://mproman.github.io/CYBERSEC520/intro.html](https://mproman.github.io/CYBERSEC520/intro.html)
+
 This repository contains the source code for the "Machine Learning in Cybersecurity" online course book. This material is designed to supplement the official course content.
 
 **Note to Students:** The **complete and official course content** is available on **Canvas**. Please refer to Canvas for valid assignments, due dates, and official announcements.
@@ -50,3 +52,4 @@ To remove the build directory:
 ```bash
 uv run jupyter-book clean .
 ```
+
