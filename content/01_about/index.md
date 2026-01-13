@@ -1,4 +1,4 @@
-# Module 1: About the Course and Instructor
+# About the Course and Instructor
 
 ## 1.0 Introduction and Course Overview
 
@@ -63,3 +63,4 @@ We will rely on a standardized set of tools to ensure consistency and focus our 
 ## Hands-on Assignment: Get to Know You
 - **Goal**: Map in-class participation questions to an online submission.
 - [Assignment Link](../assignments/index.md)
+
