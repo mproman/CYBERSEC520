@@ -1,0 +1,18 @@
+title: "Artificial Intelligence in Cyber Operations"
+author: "Michael Roman, Ph.D."
+copyright: "2026"
+
+logo: "logo.png"  # You can add a logo file later
+execute:
+  execute_notebooks: force
+
+html:
+  use_issues_button: true
+  use_repository_button: true
+  extra_navbar: |
+    <p><b>Course:</b> ML in Cybersecurity</p>
+
+repository:
+  url: "https://github.com/course/repo"
+  path_to_book: ""
+  branch: "main"

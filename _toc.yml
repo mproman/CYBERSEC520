@@ -1,0 +1,22 @@
+format: jb-book
+root: intro
+parts:
+  - caption: Getting Started
+    chapters:
+    - file: content/setup/uv
+  - caption: Course Modules
+    chapters:
+    - file: content/01_about/index
+    - file: content/02_overview/index
+    - file: content/03_intro_ml/index
+      sections:
+      - file: content/03_intro_ml/Fall_2025_CYBERSEC_520_Class_1
+        title: "Lecture Notebook: Intro to ML Models"
+    - file: content/04_data_processing/index
+    - file: content/05_clustering/index
+    - file: content/06_deep_learning/index
+    - file: content/07_sequential_models/index
+    - file: content/08_llms/index
+  - caption: Assignments
+    chapters:
+    - file: content/assignments/index
