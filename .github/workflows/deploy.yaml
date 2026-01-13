@@ -20,6 +20,8 @@ concurrency:
 jobs:
   deploy-book:
     runs-on: ubuntu-latest
+    env:
+      UV_SYSTEM_PYTHON: 1
     steps:
       - uses: actions/checkout@v4
 
