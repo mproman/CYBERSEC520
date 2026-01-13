@@ -1,8 +1,8 @@
-# Artificial Intelligence in Cyber Operations
+# Foundations of Artificial Intelligence in Cybersecurity
 
-**CYBERSEC 520 | Fall 2025**
+**CYBERSEC 520 | Fall 2026**
 
-Welcome to the official online course notes for **Artificial Intelligence in Cyber Operations**.
+Welcome to the official online course notes for **Foundations of Artificial Intelligence in Cybersecurity**.
 
 ## Course Description
 This course explores the intersection of artificial intelligence and cybersecurity. **We begin by establishing a solid foundation in Machine Learning (ML) and Deep Learning (DL) concepts.** From there, we dive into the "Dual Role" of AI:
@@ -20,3 +20,4 @@ This book is broken down into **8 Modules**. You can navigate through them using
 *   **Assignments**: Access all course assignments in the dedicated section.
 *   **Notebooks**: Interactive Jupyter Notebooks are embedded directly into the modules.
 *   **Navigation**: Use the left sidebar to jump between modules. Use the right sidebar to navigate within a page.
+
