@@ -20,8 +20,6 @@ concurrency:
 jobs:
   deploy-book:
     runs-on: ubuntu-latest
-    env:
-      UV_SYSTEM_PYTHON: 1
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +28,9 @@ jobs:
 
       - name: Set up Python
         run: uv python install 3.11
+
+      - name: Create virtual environment
+        run: uv venv
 
       - name: Install dependencies
         run: uv pip install -r requirements.txt
