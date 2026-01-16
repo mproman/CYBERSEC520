@@ -20,6 +20,7 @@ parts:
   - caption: Assignments
     chapters:
     - file: content/assignments/index
-    - file: content/assignments/Assignment_1.ipynb
+    - file: content/assignments/Assignment_1_Colab_and_ML_basics (4).ipynb
+
 
 
