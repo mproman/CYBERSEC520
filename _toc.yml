@@ -20,4 +20,6 @@ parts:
   - caption: Assignments
     chapters:
     - file: content/assignments/index
+    - file: content/assignments/Assignment_1.ipynb
+
 
