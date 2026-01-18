@@ -7,21 +7,22 @@ parts:
     - file: content/01_about/index
   - caption: Course Modules
     chapters:
-    - file: content/02_overview/index
     - file: content/03_intro_ml/index
+      title: "Module 1: Foundations of Machine Learning"
       sections:
       - file: content/03_intro_ml/Fall_2025_CYBERSEC_520_Class_1
-        title: "Lecture Notebook: Intro to ML Models"
+        title: "Class 1: From Data to Prediction"
       - file: content/03_intro_ml/lecture2v2.md
-    - file: content/04_data_processing/index
-    - file: content/05_clustering/index
+        title: "Class 2: Data Processing and Feature Engineering"
     - file: content/06_deep_learning/index
-    - file: content/07_sequential_models/index
+      title: "Module 2: Deep Learning Foundations (Coming Soon)"
     - file: content/08_llms/index
+      title: "Module 3: Large Language Models (Coming Soon)"
   - caption: Assignments
     chapters:
     - file: content/assignments/index
     - file: content/assignments/Assignment_1.ipynb
+
 
 
 
