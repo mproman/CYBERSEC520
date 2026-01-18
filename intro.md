@@ -1,6 +1,6 @@
-# Foundations of Artificial Intelligence in Cybersecurity
+# Course Overview
 
-**CYBERSEC 520 | Fall 2026**
+**CYBERSEC 520: Foundations of Artificial Intelligence in Cybersecurity | Spring 2026**
 
 Welcome to the official online course notes for **Foundations of Artificial Intelligence in Cybersecurity**.
 
@@ -20,4 +20,5 @@ This book is broken down into **8 Modules**. You can navigate through them using
 *   **Assignments**: Access all course assignments in the dedicated section.
 *   **Notebooks**: Interactive Jupyter Notebooks are embedded directly into the modules.
 *   **Navigation**: Use the left sidebar to jump between modules. Use the right sidebar to navigate within a page.
+
 
