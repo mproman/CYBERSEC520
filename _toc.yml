@@ -12,6 +12,7 @@ parts:
       sections:
       - file: content/03_intro_ml/Fall_2025_CYBERSEC_520_Class_1
         title: "Lecture Notebook: Intro to ML Models"
+      - file: content/03_intro_ml/lecture2v2.md
     - file: content/04_data_processing/index
     - file: content/05_clustering/index
     - file: content/06_deep_learning/index
@@ -21,6 +22,7 @@ parts:
     chapters:
     - file: content/assignments/index
     - file: content/assignments/Assignment_1.ipynb
+
 
 
 
