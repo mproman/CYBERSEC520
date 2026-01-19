@@ -12,8 +12,8 @@ parts:
       sections:
       - file: content/03_intro_ml/Fall_2025_CYBERSEC_520_Class_1
         title: "Class 1: From Data to Prediction"
-      - file: content/03_intro_ml/lecture2v2.md
-        title: "Class 2: Data Processing and Feature Engineering"
+     # - file: content/03_intro_ml/lecture2v2.md #update placeholder file
+     #   title: "Class 2: Data Processing and Feature Engineering"
     - file: content/06_deep_learning/index
       title: "Module 2: Deep Learning Foundations (Coming Soon)"
     - file: content/08_llms/index
@@ -22,6 +22,7 @@ parts:
     chapters:
     - file: content/assignments/index
     - file: content/assignments/Assignment_1.ipynb
+    #- file: content/assignments/Assignment_2.ipynb
 
 
 
