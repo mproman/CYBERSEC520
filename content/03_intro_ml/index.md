@@ -1,8 +1,8 @@
-# Module 3: Intro to ML
+# Module 1: Intro to ML
 
-## 3.0 Foundations of AI and Machine Learning
+## 1.0 Foundations of AI and Machine Learning
 
-### 3.1 Demystifying Artificial Intelligence
+### 1.1 Demystifying Artificial Intelligence
 
 The term "Artificial Intelligence" is often used as a broad and sometimes vague catch-all. Its definition seems to shift as technology progresses. To build a solid foundation for this course, it is crucial to establish a clear, structured framework for understanding AI and its key sub-disciplines.
 
@@ -21,7 +21,7 @@ To bring clarity to this, we can think of these concepts as a set of nested hier
 
 Now that we have defined the terminology, let's explore the primary methodologies that machine learning models use to learn from data.
 
-### 3.2 Core Methodologies of Machine Learning
+### 1.2 Core Methodologies of Machine Learning
 
 Machine learning is not a single, monolithic technique. It is a collection of different approaches, each suited to different types of data and different kinds of problems. In cybersecurity, we primarily draw from three core methodologies.
 
@@ -50,19 +50,19 @@ These foundational concepts are the building blocks for the models we will now c
 
 ---
 
-## 3.3 Hands-On Lab: Building Your First Cybersecurity ML Models
+## 1.3 Hands-On Lab: Building Your First Cybersecurity ML Models
 
-### 3.3.1 Lab Setup and Prerequisites
+### 1.3.1 Lab Setup and Prerequisites
 
 This section marks our transition from theory to practice. We will now walk through the process of building, training, and evaluating several fundamental machine learning models using Python, scikit-learn, and a Google Colab notebook. This is where the concepts we've discussed become tangible skills. By the end of this lab, you will have built and evaluated multiple models, providing a solid foundation for every project that follows.
 
 While this course does not require prior ML knowledge, it is assumed that you have a basic familiarity with algebra (linear equations), statistics (mean, histograms), and some Python programming. The Colab notebook for this lab contains links to refresher materials if you need them.
 
-*   **Task**: Please download the `Fall_2025_CYBERSEC_520_Class_1.ipynb` file (linked below).
+*   **Task**: Please download the `Spring_2026_CYBERSEC_520_Class_1.ipynb` file (linked below).
 
 A Colab notebook consists of two main components: **Text blocks**, like this one, which provide explanations, and **Code blocks**, which contain executable Python code. It is critical that you run the code blocks in the order they appear to ensure that variables and models are defined correctly.
 
-### 3.3.2 Part 1: Linear Regression and the Concept of Loss
+### 1.3.2 Part 1: Linear Regression and the Concept of Loss
 
 Our first model will be a simple linear regression. The primary goal here is not just to build the model, but to develop an intuitive understanding of a core machine learning concept that applies to nearly every model we will build: the **loss function**.
 
@@ -82,7 +82,7 @@ How do we mathematically define the "best" fit? We use a metric called a **loss 
 
 Run the code cells under the heading "Let the Machine 'Learn' From Data." This code uses the LinearRegression model from the scikit-learn library. The model algorithmically finds the optimal slope and intercept that minimize the MSE for our dataset. The notebook will then print the final results and plot the line of best fit.
 
-### 3.3.3 Part 2: Classification with k-Nearest Neighbors (kNN)
+### 1.3.3 Part 2: Classification with k-Nearest Neighbors (kNN)
 
 Now we will move from regression (predicting a number) to classification (predicting a category). We will use the classic Palmer Penguins dataset to build a model that can classify a penguin's species (Adelie, Chinstrap, or Gentoo) based on its physical measurements like bill and flipper length.
 
@@ -116,7 +116,7 @@ Run the final `make_pipeline` code cell. A pipeline is a convenient way to chain
 
 Finally, run the code that generates a `plot_decision_regions` graph. This plot shows us exactly how the trained kNN model has partitioned the feature space. Each colored region represents the area where any new data point would be classified as a particular species.
 
-### 3.3.4 Part 3: A Real-World Cyber Example - DDoS Detection
+### 1.3.4 Part 3: A Real-World Cyber Example - DDoS Detection
 
 Now, let's apply these classification techniques to a real-world cybersecurity problem. In this section, we will use the CICIDS2017 dataset, which contains records of real network traffic, to build a classifier that can distinguish between normal (BENIGN) traffic and a Distributed Denial of Service (DDoS) attack.
 
@@ -147,7 +147,7 @@ From these, we derive more informative metrics:
 
 Run the `classification_report` cell to see these metrics for our model and the cell that plots the confusion matrix. The resulting matrix for our kNN model shows 15 False Negatives (actual DDoS attacks that we missed) and 37 False Positives (benign traffic that was incorrectly flagged as an attack). Our goal with more advanced models is to drive both of these numbers down.
 
-### 3.3.5 Part 4: A More Advanced Model - Support Vector Machines (SVM)
+### 1.3.5 Part 4: A More Advanced Model - Support Vector Machines (SVM)
 
 Next, we'll explore a more powerful classification model: the Support Vector Machine (SVM). The core idea behind an SVM is to find an optimal dividing line, or "hyperplane," that creates the largest possible margin or gap between different classes of data points.
 
