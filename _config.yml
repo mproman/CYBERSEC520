@@ -13,7 +13,7 @@ html:
     <p><b>Course:</b> ML in Cybersecurity</p>
 
 repository:
-  url: "https://github.com/course/repo"
+  url: "https://github.com/mproman/CYBERSEC520/"
   path_to_book: ""
   branch: "main"
 
