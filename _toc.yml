@@ -5,7 +5,7 @@ parts:
     chapters:
     - file: content/setup/uv
     - file: content/01_about/index
-  - caption: Module 1: Foundations of Machine Learning
+  - caption: "Module 1: Foundations of Machine Learning"
     chapters:
     - file: content/03_intro_ml/03-Class3_markdown
       title: "Class 3: Clustering Algorithms for Cybersecurity"
@@ -19,6 +19,7 @@ parts:
     - file: content/assignments/Assignment_1.ipynb
     #- file: content/assignments/Assignment_2.ipynb
     
+
 
 
 
