@@ -1,4 +1,4 @@
-# Module 8: LLMs in Cybersecurity
+# LLMs (Coming Soon)
 
 ## Topics
 - Large Language Models
@@ -6,3 +6,4 @@
 
 ## Assignment
 Phishing Email Detection.
+
