@@ -7,25 +7,19 @@ parts:
     - file: content/01_about/index
   - caption: Module 1: Foundations of Machine Learning
     chapters:
-    - file: content/03_intro_ml/index
-      title: "Class 1: From Data to Prediction"
-    - file: content/03_intro_ml/lecture2v2.md #update placeholder file testing ipynb to myst md
-      title: "Class 2: Data Processing and Feature Engineering"
     - file: content/03_intro_ml/03-Class3_markdown
       title: "Class 3: Clustering Algorithms for Cybersecurity"
   - caption: Module 2: Deep Learning Foundations (Coming Soon)
     chapters:
   - caption: Module 3: Deep Learning Foundations (Coming Soon)
     chapters:
-    - file: content/06_deep_learning/index
-      title: "Module 2: Deep Learning Foundations (Coming Soon)"
-    - file: content/08_llms/index
-      title: "Module 3: Large Language Models (Coming Soon)"
   - caption: Assignments
     chapters:
     - file: content/assignments/index
     - file: content/assignments/Assignment_1.ipynb
     #- file: content/assignments/Assignment_2.ipynb
+    
+
 
 
 
