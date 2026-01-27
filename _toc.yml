@@ -14,7 +14,7 @@ parts:
         title: "Class 1: From Data to Prediction"
      # - file: content/03_intro_ml/lecture2v2.md #update placeholder file testing ipynb to myst md
      #   title: "Class 2: Data Processing and Feature Engineering"
-      - file: content/03_intro_ml/03-class3_markdown.md 
+      - file: content/03_intro_ml/03-class3_markdown
         title: "Class 3: Clustering Algorithms for Cybersecurity"
     - file: content/06_deep_learning/index
       title: "Module 2: Deep Learning Foundations (Coming Soon)"
@@ -25,6 +25,7 @@ parts:
     - file: content/assignments/index
     - file: content/assignments/Assignment_1.ipynb
     #- file: content/assignments/Assignment_2.ipynb
+
 
 
 
