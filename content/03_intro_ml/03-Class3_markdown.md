@@ -353,7 +353,7 @@ print("Watch how centroids move and clusters form...")
 kmeans_labels, final_centroids = demonstrate_kmeans_algorithm(X_cyber, k=5)
 
 # Calculate final WCSS
-wcss = sum(np.min(np.sum((X_cyber - final_centroids)**2, axis=1).reshape(-1, 1), axis=1))
+wcss = sum(np.min(np.sum((X_cyber[:, np.newaxis] - final_centroids)**2, axis=2), axis=1))
 print(f"\nFinal WCSS: {wcss:.2f}")
 ```
 
