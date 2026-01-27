@@ -17,7 +17,7 @@ kernelspec:
 
 :::{caution} Disclaimer
 :class: dropdown
-This is an experimental format. THe content of this page was adapted from Professor Roman's Lecture in Fall 2025. Claude 4.5 was used to clean up the audio transcripts and adapt them for this format. AI may make mistakes. If you into any issues please open a `Issue` or send an email to the TA [Sasank](mailto:sasank.g@duke.edu)
+This is an experimental format. The content of this page was adapted from Professor Roman's Lecture in Fall 2025. Claude 4.5 was used to clean up the audio transcripts and adapt them for this format. AI may make mistakes. If you into any issues please open an `Issue` or send an email to the TA [Sasank](mailto:sasank.g@duke.edu)
 :::
 
 # Learning Objectives

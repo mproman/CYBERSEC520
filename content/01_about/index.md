@@ -14,7 +14,7 @@ kernelspec:
 # About the Course and Instructor
 
 :::{caution} Disclaimer
-This is an experimental format. THe content of this page is being adapted from Professor Roman's Lectures in Fall 2025 and SPring 2026. Claude 4.5 and Gemini 3.0 Pro are used to clean up the audio transcripts and adapt them for this format. AI may make mistakes. If you into any issues please open a `Issue` or send an email to the TA [Sasank](mailto:sasank.g@duke.edu)
+This is an experimental format. The content of this page is being adapted from Professor Roman's Lectures in Fall 2025 and Spring 2026. Claude 4.5 and Gemini 3.0 Pro are used to clean up the audio transcripts and adapt them for this format. AI may make mistakes. If you into any issues please open an `Issue` or send an email to the TA [Sasank](mailto:sasank.g@duke.edu)
 :::
 
 ## 1.0 Introduction and Course Overview
