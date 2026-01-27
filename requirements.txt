@@ -7,3 +7,4 @@ scikit-learn
 yellowbrick
 umap-learn
 numba>=0.57.0
+ipywidgets
