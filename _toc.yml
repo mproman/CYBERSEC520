@@ -7,6 +7,10 @@ parts:
     - file: content/01_about/index
   - caption: "Module 1: Foundations of Machine Learning"
     chapters:
+    - file: content/03_intro_ml/Class1
+      title: "Class 1: Coming Soon"
+    - file: content/03_intro_ml/Class2
+      title: "Class 2: Coming Soon"
     - file: content/03_intro_ml/03-Class3_markdown
       title: "Class 3: Clustering Algorithms for Cybersecurity"
   - caption: "Module 2: Deep Learning Foundations (Coming Soon)"
@@ -21,6 +25,7 @@ parts:
     - file: content/assignments/Assignment_1.ipynb
     #- file: content/assignments/Assignment_2.ipynb
     
+
 
 
 
