@@ -336,70 +336,18 @@ $$f(x) = \sin(x) + \frac{1}{2}\sin(3x)$$
 
 This is not a simple pattern—it has different frequencies mixed together. But watch how ReLUs can approximate it:
 
-```{code-cell} python
-:tags: [hide-input]
-from ipywidgets import IntSlider
 
-def target_function(x):
-    """Complex target function with multiple frequencies"""
-    return np.sin(x) + 0.5 * np.sin(3 * x)
+:::{note}
+**Interactive Demo**
+We have moved the interactive demonstration to a dedicated app for a better experience.
+:::
 
-def relu_approximation(n_segments):
-    """Approximate target function using n_segments ReLU functions"""
-    x = np.linspace(-np.pi, np.pi, 1000)
-    y_true = target_function(x)
-    
-    # Create knot points where ReLU "bends" occur
-    x_knots = np.linspace(-np.pi, np.pi, n_segments + 1)
-    y_knots = target_function(x_knots)
-    
-    # Calculate slopes between knot points
-    slopes = np.diff(y_knots) / np.diff(x_knots)
-    intercepts = y_knots[:-1] - slopes * x_knots[:-1]
-    
-    # Build piecewise linear approximation using ReLU combinations
-    y_approx = slopes[0] * x + intercepts[0]
-    for i in range(1, len(slopes)):
-        delta_slope = slopes[i] - slopes[i-1]
-        y_approx += delta_slope * relu(x - x_knots[i])
-    
-    # Calculate approximation error
-    mse = np.mean((y_true - y_approx)**2)
-    
-    # Plot
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
-    
-    # Main approximation plot
-    ax1.plot(x, y_true, 'b-', label='Target Function', linewidth=2.5, alpha=0.8)
-    ax1.plot(x, y_approx, 'r--', label='ReLU Approximation', linewidth=2.5)
-    ax1.plot(x_knots, y_knots, 'go', markersize=8, label='Knot Points', alpha=0.7)
-    ax1.set_title(f'Universal Approximation: {n_segments} ReLU Segments', 
-                  fontsize=14, fontweight='bold')
-    ax1.set_xlabel('x', fontsize=12)
-    ax1.set_ylabel('y', fontsize=12)
-    ax1.legend(fontsize=11, loc='upper right')
-    ax1.grid(True, alpha=0.3)
-    ax1.text(0.02, 0.98, f'MSE: {mse:.4f}', transform=ax1.transAxes, 
-             fontsize=11, verticalalignment='top',
-             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
-    
-    # Error plot
-    error = np.abs(y_true - y_approx)
-    ax2.fill_between(x, error, alpha=0.5, color='red')
-    ax2.set_title('Approximation Error', fontsize=14, fontweight='bold')
-    ax2.set_xlabel('x', fontsize=12)
-    ax2.set_ylabel('|Target - Approximation|', fontsize=12)
-    ax2.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
-    plt.show()
-
-interact(
-    relu_approximation, 
-    n_segments=IntSlider(min=2, max=50, step=1, value=5, 
-                         description='Segments:', continuous_update=False)
-)
+```{iframe} https://share.streamlit.io/your-username/your-repo/main/streamlit_apps/universal_approximation.py
+:width: 100%
+:height: 600px
+:class: centered-iframe
 ```
+
 
 Start with just 2-3 segments—the approximation is pretty rough. You can see the general shape, but there's significant error. Now gradually increase to 10 segments—much better. At 20 segments, you're getting quite close. At 50 segments, the approximation is nearly indistinguishable from the target function. The error (shown in the right plot) shrinks dramatically as you add more ReLU functions.
 
