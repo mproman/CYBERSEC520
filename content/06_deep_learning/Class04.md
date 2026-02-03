@@ -342,7 +342,7 @@ This is not a simple pattern—it has different frequencies mixed together. But 
 We have moved the interactive demonstration to a dedicated app for a better experience.
 :::
 
-```{iframe} https://share.streamlit.io/your-username/your-repo/main/streamlit_apps/universal_approximation.py
+```{iframe} https://cybersec520-universal-approx.streamlit.app/Class_04_Approximation/?embed=true
 :width: 100%
 :height: 600px
 :class: centered-iframe
