@@ -12,6 +12,11 @@ html:
   extra_navbar: |
     <p><b>Course:</b> ML in Cybersecurity</p>
 
+launch_buttons:
+  notebook_interface: "jupyterlab"
+  binderhub_url: "https://mybinder.org"
+  thebe: true
+
 repository:
   url: "https://github.com/mproman/CYBERSEC520/"
   path_to_book: ""
