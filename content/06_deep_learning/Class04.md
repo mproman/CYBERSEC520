@@ -342,10 +342,8 @@ This is not a simple pattern—it has different frequencies mixed together. But 
 We have moved the interactive demonstration to a dedicated app for a better experience.
 :::
 
-```{iframe} https://cybersec520-universal-approx.streamlit.app/Class_04_Approximation/?embed=true
-:width: 100%
-:height: 600px
-:class: centered-iframe
+```{raw} html
+<iframe src="https://cybersec520-universal-approx.streamlit.app/Class_04_Approximation/?embed=true" width="100%" height="600px" style="border:none;"></iframe>
 ```
 
 
