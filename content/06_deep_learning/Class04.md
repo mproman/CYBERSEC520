@@ -29,7 +29,7 @@ jupytext:
 This is an experimental format. The content of this page was adapted from Professor Roman's lecture in Fall 2025. Claude 4.5 was used to clean up the audio transcripts and adapt them for this format. AI may make mistakes. If you run into any issues please open an `Issue` or send an email to the TA [Sasank](mailto:sasank.g@duke.edu)
 :::
 
-# Introduction to Neural Networks
+# Class 04 - Introduction to Neural Networks
 
 Welcome to Class 4. Today we're getting into the foundational architecture that underpins modern AI: neural networks. We'll explore both theory and practice through an introduction to neural network fundamentals followed by a hands-on exploration lab. The lab focuses on building intuition rather than coding—you'll experiment with different parameters to understand how model architecture and hyperparameters impact training and performance.
 
