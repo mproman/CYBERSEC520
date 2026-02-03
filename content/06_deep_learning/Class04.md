@@ -12,6 +12,16 @@ license: CC-BY-4.0
 keywords: neural networks, deep learning, activation functions, ReLU, gradient descent, universal approximation theorem, backpropagation, regularization, cybersecurity
 abstract: |
   This lecture introduces neural network fundamentals through both theory and hands-on exploration. We cover network architecture, how individual neurons process information, activation functions, and the Universal Approximation Theorem through interactive demonstrations. The training process via gradient descent and backpropagation is explained with practical examples, followed by discussion of regularization techniques. An extended hands-on lab using TensorFlow Playground builds intuition about network parameters and their effects on learning.
+kernelspec:
+  display_name: 'Python 3'
+  language: python3
+  name: python3
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.19.0
 ---
 
 :::{caution}
