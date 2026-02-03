@@ -15,7 +15,7 @@ parts:
       title: "Class 3: Clustering Algorithms for Cybersecurity (Notes)"
     #- file: content/03_intro_ml/03-Class3.ipynb
     #  title: "Class 3: Notebook"
-  - caption: "Module 2: Deep Learning Foundations (Coming Soon)"
+  - caption: "Module 2: Deep Learning Foundations"
     chapters:
     - file: content/06_deep_learning/Class04
   - caption: "Module 3: Large Language Models (Coming Soon)"
@@ -27,6 +27,7 @@ parts:
     - file: content/assignments/Assignment_1.ipynb
     #- file: content/assignments/Assignment_2.ipynb
     
+
 
 
 
