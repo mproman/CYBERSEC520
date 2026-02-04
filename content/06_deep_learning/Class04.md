@@ -287,12 +287,11 @@ Now let's combine two ReLU functions:
 
 $$f(x) = \max(0, m_1x + b_1) + \max(0, m_2x + b_2)$$
 
-
 ```{code-cell} python
 :tags: [hide-input]
-import altair as alt
-import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from ipywidgets import interact, FloatSlider
 
 def relu(x):
     return np.maximum(0, x)
@@ -300,47 +299,27 @@ def relu(x):
 def double_relu(m1, b1, m2, b2, x):
     return relu(m1*x + b1) + relu(m2*x + b2)
 
-# Create parameter sliders
-m1_slider = alt.binding_range(min=-3, max=3, step=0.1, name='Slope 1: ')
-m1_param = alt.param(name='m1', value=-2.2, bind=m1_slider)
+x = np.linspace(-2, 2, 1000)
 
-b1_slider = alt.binding_range(min=-3, max=3, step=0.1, name='Offset 1: ')
-b1_param = alt.param(name='b1', value=-2.2, bind=b1_slider)
-
-m2_slider = alt.binding_range(min=-3, max=3, step=0.1, name='Slope 2: ')
-m2_param = alt.param(name='m2', value=2.2, bind=m2_slider)
-
-b2_slider = alt.binding_range(min=-3, max=3, step=0.1, name='Offset 2: ')
-b2_param = alt.param(name='b2', value=2.2, bind=b2_slider)
-
-# Generate base data
-x_vals = np.linspace(-2, 2, 1000)
-
-# Compute y for all parameter combinations would require pre-computing
-# Instead, use expressions and transforms for dynamic computation
-base_df = pd.DataFrame({'x': x_vals})
-
-chart = alt.Chart(base_df).mark_line(
-    color='#2E86AB',
-    strokeWidth=3
-).encode(
-    x=alt.X('x:Q', title='Input (x)', scale=alt.Scale(domain=[-2, 2])),
-    y=alt.Y('y:Q', title='Output (y)', scale=alt.Scale(domain=[-2, 6]))
-).transform_calculate(
-    # Compute relu1 and relu2 using parameter values
-    relu1=f'max(0, {m1_param.name} * datum.x + {b1_param.name})',
-    relu2=f'max(0, {m2_param.name} * datum.x + {b2_param.name})',
-    y='datum.relu1 + datum.relu2'
-).add_params(
-    m1_param, b1_param, m2_param, b2_param
-).properties(
-    width=700,
-    height=400,
-    title='Combining Two ReLUs Creates Piecewise Linear Functions'
+@interact(
+    m1=FloatSlider(min=-3, max=3, step=0.1, value=-2.2, description='Slope 1:'),
+    b1=FloatSlider(min=-3, max=3, step=0.1, value=-2.2, description='Offset 1:'),
+    m2=FloatSlider(min=-3, max=3, step=0.1, value=2.2, description='Slope 2:'),
+    b2=FloatSlider(min=-3, max=3, step=0.1, value=2.2, description='Offset 2:')
 )
-
-chart
-
+def plot_double_relu(m1, b1, m2, b2):
+    y = double_relu(m1, b1, m2, b2, x)
+    plt.figure(figsize=(12, 6))
+    plt.plot(x, y, linewidth=3, color='#2E86AB')
+    plt.xlabel('Input (x)', fontsize=13)
+    plt.ylabel('Output (y)', fontsize=13)
+    plt.title('Combining Two ReLUs Creates Piecewise Linear Functions', 
+              fontsize=15, fontweight='bold')
+    plt.grid(True, alpha=0.3)
+    plt.ylim(-2, 6)
+    plt.axhline(y=0, color='k', linewidth=0.5)
+    plt.axvline(x=0, color='k', linewidth=0.5)
+    plt.show()
 ```
 
 With just two ReLUs, you can create a function with a "bend"—more complex than either ReLU alone. Play with the sliders and you'll see how adjusting slopes and offsets creates different shapes. Each additional ReLU adds another potential change in slope—another degree of freedom in the approximation.
@@ -365,167 +344,6 @@ We have moved the interactive demonstration to a dedicated app for a better expe
 <iframe src="https://cybersec520-universal-approx.streamlit.app/Class_04_Approximation/?embed=true" width="100%" height="600px" style="border:none;"></iframe>
 ```
 
-```{code-cell} python
-:tags: [hide-input]
-
-import altair as alt
-#alt.data_transformers.enable("vegafusion")
-import pandas as pd
-import numpy as np
-
-alt.data_transformers.disable_max_rows()
-
-def relu(x):
-    return np.maximum(0, x)
-
-def target_function(x):
-    """Complex target function with multiple frequencies"""
-    return np.sin(x) + 0.5 * np.sin(3 * x)
-
-def compute_approximation(n_segments, x):
-    """Compute ReLU approximation for given number of segments"""
-    y_true = target_function(x)
-    
-    # Create knot points
-    x_knots = np.linspace(-np.pi, np.pi, n_segments + 1)
-    y_knots = target_function(x_knots)
-    
-    # Calculate slopes between knot points
-    slopes = np.diff(y_knots) / np.diff(x_knots)
-    intercepts = y_knots[:-1] - slopes * x_knots[:-1]
-    
-    # Build piecewise linear approximation
-    y_approx = slopes[0] * x + intercepts[0]
-    for i in range(1, len(slopes)):
-        delta_slope = slopes[i] - slopes[i-1]
-        y_approx += delta_slope * relu(x - x_knots[i])
-    
-    error = np.abs(y_true - y_approx)
-    mse = np.mean((y_true - y_approx)**2)
-    
-    return y_true, y_approx, error, x_knots, y_knots, mse
-
-# Generate base data for all segment counts
-x = np.linspace(-np.pi, np.pi, 1000)
-segment_counts = list(range(2, 51))
-
-# Pre-compute all approximations
-all_data = []
-mse_data = []
-
-for n_seg in segment_counts:
-    y_true, y_approx, error, x_knots, y_knots, mse = compute_approximation(n_seg, x)
-    
-    # Store MSE for loss curve
-    mse_data.append({
-        'n_segments': n_seg,
-        'mse': mse
-    })
-    
-    for i in range(len(x)):
-        all_data.append({
-            'x': x[i],
-            'y_true': y_true[i],
-            'y_approx': y_approx[i],
-            'error': error[i],
-            'n_segments': n_seg
-        })
-
-df = pd.DataFrame(all_data)
-mse_df = pd.DataFrame(mse_data)
-
-# Create knot points data
-knot_data = []
-for n_seg in segment_counts:
-    x_knots = np.linspace(-np.pi, np.pi, n_seg + 1)
-    y_knots = target_function(x_knots)
-    for i in range(len(x_knots)):
-        knot_data.append({
-            'x': x_knots[i],
-            'y': y_knots[i],
-            'n_segments': n_seg
-        })
-
-knot_df = pd.DataFrame(knot_data)
-
-# Create parameter slider for number of segments
-segment_slider = alt.binding_range(min=2, max=50, step=1, name='Number of ReLU Segments (Neurons): ')
-segment_param = alt.param(name='n_segments', value=5, bind=segment_slider)
-
-# Main approximation chart
-base = alt.Chart(df).transform_filter(
-    alt.datum.n_segments == segment_param
-)
-
-# Target function line
-target_line = base.mark_line(color='blue', strokeWidth=2.5, opacity=0.8).encode(
-    x=alt.X('x:Q', title='Input (x)', scale=alt.Scale(domain=[-np.pi, np.pi])),
-    y=alt.Y('y_true:Q', title='Output (y)')
-)
-
-# Approximation line
-approx_line = base.mark_line(color='red', strokeWidth=2.5, strokeDash=[5, 5]).encode(
-    x='x:Q',
-    y=alt.Y('y_approx:Q')
-)
-
-# Knot points
-knots = alt.Chart(knot_df).mark_point(
-    color='green',
-    size=80,
-    opacity=0.7
-).encode(
-    x='x:Q',
-    y='y:Q'
-).transform_filter(
-    alt.datum.n_segments == segment_param
-)
-
-# Combine approximation plot
-approx_chart = (target_line + approx_line + knots).properties(
-    width=400,
-    height=300,
-    title='ReLU Approximation of Target Function'
-).add_params(segment_param)
-
-# MSE Loss curve
-loss_line = alt.Chart(mse_df).mark_line(color='#2E86AB', strokeWidth=2.5).encode(
-    x=alt.X('n_segments:Q', title='Number of Segments (Neurons)', scale=alt.Scale(domain=[2, 50])),
-    y=alt.Y('mse:Q', title='Mean Squared Error (MSE)')
-)
-
-# Moving marker on loss curve
-loss_marker = alt.Chart(mse_df).mark_point(
-    color='red',
-    size=150,
-    filled=True
-).encode(
-    x='n_segments:Q',
-    y='mse:Q'
-).transform_filter(
-    alt.datum.n_segments == segment_param
-)
-
-# Combine loss curve with marker
-loss_chart = (loss_line + loss_marker).properties(
-    width=400,
-    height=300,
-    title='Training Loss: MSE vs Number of Segments'
-)
-
-# Combine charts side by side
-chart = alt.hconcat(approx_chart, loss_chart).properties(
-    title={
-        "text": "Universal Approximation Theorem Demo",
-        "subtitle": "How neural networks approximate complex functions using ReLU units",
-        "fontSize": 16,
-        "fontWeight": "bold"
-    }
-)
-
-chart
-
-```
 
 Start with just 2-3 segments—the approximation is pretty rough. You can see the general shape, but there's significant error. Now gradually increase to 10 segments—much better. At 20 segments, you're getting quite close. At 50 segments, the approximation is nearly indistinguishable from the target function. The error (shown in the right plot) shrinks dramatically as you add more ReLU functions.
 
@@ -567,91 +385,9 @@ $$C(w_1, w_2, w_3, ..., w_n)$$
 
 where each $w$ is one of the weights and biases in the model, and $C$ is the total loss.
 
-```{code-cell} python
-:tags: [hide-input]
-import altair as alt
-import pandas as pd
-import numpy as np
+For our simple example with just three parameters ($a$, $b$, $c$), you could visualize this as a 3D surface—a bowl shape if you're lucky. For real neural networks with thousands or millions of parameters, you can't visualize it, but the math is the same.
 
-# Generate noisy data
-np.random.seed(42)
-x_data = np.linspace(-2, 2, 100)
-y_true = 0.5 * x_data**2 - 0.3 * x_data + 1.0
-y_noisy = y_true + np.random.normal(0, 0.3, len(x_data))
-
-data_df = pd.DataFrame({
-    'x': x_data,
-    'y': y_noisy
-})
-
-# Line data for the smooth curve
-x_smooth = np.linspace(-2, 2, 200)
-line_df = pd.DataFrame({'x': x_smooth})
-
-# Create parameter sliders
-a_slider = alt.binding_range(min=-2, max=2, step=0.1, name='a (x²): ')
-a_param = alt.param(name='a', value=0.5, bind=a_slider)
-
-b_slider = alt.binding_range(min=-2, max=2, step=0.1, name='b (x): ')
-b_param = alt.param(name='b', value=-0.3, bind=b_slider)
-
-c_slider = alt.binding_range(min=-1, max=3, step=0.1, name='c (constant): ')
-c_param = alt.param(name='c', value=1.0, bind=c_slider)
-
-# Scatter plot of data points
-scatter = alt.Chart(data_df).mark_circle(
-    size=50,
-    filled=True,
-    color='#2E86AB',
-    opacity=0.6
-).encode(
-    x=alt.X('x:Q', title='Input (x)', scale=alt.Scale(domain=[-2, 2])),
-    y=alt.Y('y:Q', title='Output (y)', scale=alt.Scale(domain=[-2, 4]))
-)
-
-# Dynamic fitted curve using transform_calculate
-fit_line = alt.Chart(line_df).mark_line(
-    color='#D72638',
-    strokeWidth=3
-).encode(
-    x='x:Q',
-    y='y_fit:Q'
-).transform_calculate(
-    y_fit=f"({a_param.name} * datum.x * datum.x) + ({b_param.name} * datum.x) + {c_param.name}"
-)
-
-# Dynamic MAE calculation directly in Altair
-mae_display = alt.Chart(data_df).mark_text(
-    align='left',
-    baseline='top',
-    fontSize=16,
-    fontWeight='bold',
-    color='#333'
-).encode(
-    x=alt.value(20),
-    y=alt.value(20),
-    text=alt.Text('mae:Q', format='.3f', title='Mean Absolute Error')
-).transform_calculate(
-    error=f"abs(datum.y - (({a_param.name} * datum.x * datum.x) + ({b_param.name} * datum.x) + {c_param.name}))"
-).transform_aggregate(
-    mae='mean(error)'
-)
-
-# Combine and show
-chart = (scatter + fit_line + mae_display).add_params(
-    a_param, b_param, c_param
-).properties(
-    width=600,
-    height=400,
-    title='Interactive Gradient Descent: Visualizing Parameter Optimization'
-).configure_title(
-    fontSize=18,
-    anchor='start',
-    color='#111'
-)
-
-chart
-```
+The question is: how do you change these parameters to minimize that error? When it's just $y = mx + b$, you can solve it analytically. But we have multiple non-linear functions composed together, so we need a different approach.
 
 ### The Gradient
 
@@ -682,7 +418,7 @@ The learning rate controls how big a step you take. This turns out to be one of 
 
 Let me show you how this works in code. We'll use PyTorch, which handles gradient calculation automatically. We start with some initial parameter guesses:
 
-```{code-cell} python
+```python
 import torch
 
 # Initial parameters for quadratic function
@@ -695,7 +431,7 @@ print(f'Initial loss: {loss:.2f}')  # Shows how bad our initial guess is
 
 Now here's the magic. To calculate gradients, we call `backward()`:
 
-```{code-cell} python
+```python
 loss.backward()  # This calculates all the gradients automatically
 ```
 
@@ -1057,26 +793,30 @@ Monitor training vs validation loss curves. If training loss keeps decreasing bu
 
 ---
 
-## Video Explanation
+## Video Resource Break
 
-```{youtube} aircAruvnKk
-```
+Alright, so we've got two things left for today. One is a video, the other is the hands-on lab.
 
-The video [What is a neural network?](https://www.youtube.com/watch?v=aircAruvnKk) is a 20-minute visualization of what we've covered in class—by 3Blue1Brown, which has excellent educational content.
+The video is a 20-minute visualization of what we've covered in class—by 3Blue1Brown, which has excellent educational content. It goes through: what is a neural network, gradient descent, and shows the whole backpropagation process with much better visualizations than I can give in lecture.
 
+I'll leave it up to a vote—do you want to watch it now in class, or would you prefer to watch it on your own and just jump into the lab? Any preference?
 
- It's part of a whole series by 3Blue1Brown on neural networks:
+*[Based on class vote, video was assigned for home viewing]*
+
+Okay, you can watch it on your own. The link is on Canvas. It's part of a whole series by 3Blue1Brown on neural networks:
 - [What is a Neural Network?](https://www.youtube.com/watch?v=aircAruvnKk) (19 minutes)
 - [Gradient Descent](https://www.youtube.com/watch?v=IHZwWFHWa-w) (21 minutes)
 - [Backpropagation](https://www.youtube.com/watch?v=Ilg3gGewQ5U) (14 minutes)
 
 These are genuinely some of the best educational videos on the internet. They provide exceptional visual intuition for the concepts we covered. I strongly encourage you to watch them—they'll make these concepts click in ways that equations alone cannot.
 
+If you want to take a quick break before the lab, now's a good time. When we get back, we'll jump into the TensorFlow Playground exploration.
+
 ---
 
 ## Hands-On Lab: TensorFlow Playground
 
-The objective of this lab is to build real intuition by experimenting interactively. 
+Alright, now we're going to build real intuition by experimenting interactively. For the rest of class (~45 minutes), you'll explore neural network behavior using TensorFlow Playground.
 
 ### What is TensorFlow Playground?
 
@@ -1197,21 +937,30 @@ The detailed tables and observations should be filled out in the lab document an
 
 ## Wrapping Up
 
+Alright, so it's 5:40 and class is scheduled until 5:50. You're welcome to stay and finish the lab, or continue at home if you need more time. The key things are the exploration tasks and the open-ended reflection questions at the end.
+
 ### Assignments
 
 **Due This Week:**
-- **TensorFlow Playground exploration lab** (due Tuesday, February 10th)
+- **TensorFlow Playground exploration lab** (due Friday, September 19th)
   - Complete all four exploration tasks
   - Fill out observation tables
   - Write brief reflection
-- **Lab 2** (Extended to Sunday, February 8th)
+- **Assignment 2 from last week** (due Sunday)
+  - Standard ML classification with data processing and model optimization
+  - If you're having issues, reach out—it should be straightforward
 
 **Next Week:**
-- We'll cover **sequential models** (RNNs, LSTMs, transformers)
 - We'll build a **phishing detection model** using natural language processing
 - Walk through it in a Colab notebook in class
 - You'll finish it as homework assignment
+- We'll also cover **sequential models** (RNNs, LSTMs, transformers) that we had to push from today
 
+### Feedback Request
+
+This is the first time we've done this particular lab format in class. I'm going to create an anonymous poll to get feedback on the in-class labs—their utility, benefit, and the timing. The idea was to have this be 45 minutes, but it obviously ran a bit longer than I anticipated. I'm trying to work on the timing and structure.
+
+If you feel comfortable giving honest feedback without being anonymous, that's fine. If you prefer anonymous feedback, I'll set up a poll. It won't hurt my feelings either way—if you think these labs are great or if there are better ways to structure them, I genuinely want to know. Your input helps me improve the course.
 
 ### Looking Ahead
 
