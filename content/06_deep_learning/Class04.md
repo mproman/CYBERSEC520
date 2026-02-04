@@ -33,16 +33,14 @@ This is an experimental format. The content of this page was adapted from Profes
 
 Welcome to Class 4. Today we're getting into the foundational architecture that underpins modern AI: neural networks. We'll explore both theory and practice through an introduction to neural network fundamentals followed by a hands-on exploration lab. The lab focuses on building intuition rather than coding—you'll experiment with different parameters to understand how model architecture and hyperparameters impact training and performance.
 
-Quick note before we start: we're running a bit late today because of the career fair, and about half the class is still over there. For future reference, if there's an external event that conflicts with class and you want to attend, just give me a day or two heads-up. I can either shift the class time or cancel that week and roll the content into the next lecture. Just don't tell me 30 minutes before class starts when I'm already on campus.
 
 ## Today's Plan
 
 Here's what we're covering:
 1. Introduction to neural network architecture and mechanics
 2. Hands-on exploration lab using TensorFlow Playground (~45 minutes)
-3. *Originally planned to cover sequential models, but we're pushing that to next week given the depth we want in the hands-on work*
 
-We'll roll sequential models into next week's session when we build a phishing detection model using natural language processing. We'll start it in class and you'll finish it as homework.
+We'll cover sequential models next week when we build a phishing detection model using natural language processing. We'll start it in class and you'll finish it as homework.
 
 ## Revisiting Machine Learning
 
