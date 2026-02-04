@@ -567,9 +567,91 @@ $$C(w_1, w_2, w_3, ..., w_n)$$
 
 where each $w$ is one of the weights and biases in the model, and $C$ is the total loss.
 
-For our simple example with just three parameters ($a$, $b$, $c$), you could visualize this as a 3D surface—a bowl shape if you're lucky. For real neural networks with thousands or millions of parameters, you can't visualize it, but the math is the same.
+```{code-cell} python
+:tags: [hide-input]
+import altair as alt
+import pandas as pd
+import numpy as np
 
-The question is: how do you change these parameters to minimize that error? When it's just $y = mx + b$, you can solve it analytically. But we have multiple non-linear functions composed together, so we need a different approach.
+# Generate noisy data
+np.random.seed(42)
+x_data = np.linspace(-2, 2, 100)
+y_true = 0.5 * x_data**2 - 0.3 * x_data + 1.0
+y_noisy = y_true + np.random.normal(0, 0.3, len(x_data))
+
+data_df = pd.DataFrame({
+    'x': x_data,
+    'y': y_noisy
+})
+
+# Line data for the smooth curve
+x_smooth = np.linspace(-2, 2, 200)
+line_df = pd.DataFrame({'x': x_smooth})
+
+# Create parameter sliders
+a_slider = alt.binding_range(min=-2, max=2, step=0.1, name='a (x²): ')
+a_param = alt.param(name='a', value=0.5, bind=a_slider)
+
+b_slider = alt.binding_range(min=-2, max=2, step=0.1, name='b (x): ')
+b_param = alt.param(name='b', value=-0.3, bind=b_slider)
+
+c_slider = alt.binding_range(min=-1, max=3, step=0.1, name='c (constant): ')
+c_param = alt.param(name='c', value=1.0, bind=c_slider)
+
+# Scatter plot of data points
+scatter = alt.Chart(data_df).mark_circle(
+    size=50,
+    filled=True,
+    color='#2E86AB',
+    opacity=0.6
+).encode(
+    x=alt.X('x:Q', title='Input (x)', scale=alt.Scale(domain=[-2, 2])),
+    y=alt.Y('y:Q', title='Output (y)', scale=alt.Scale(domain=[-2, 4]))
+)
+
+# Dynamic fitted curve using transform_calculate
+fit_line = alt.Chart(line_df).mark_line(
+    color='#D72638',
+    strokeWidth=3
+).encode(
+    x='x:Q',
+    y='y_fit:Q'
+).transform_calculate(
+    y_fit=f"({a_param.name} * datum.x * datum.x) + ({b_param.name} * datum.x) + {c_param.name}"
+)
+
+# Dynamic MAE calculation directly in Altair
+mae_display = alt.Chart(data_df).mark_text(
+    align='left',
+    baseline='top',
+    fontSize=16,
+    fontWeight='bold',
+    color='#333'
+).encode(
+    x=alt.value(20),
+    y=alt.value(20),
+    text=alt.Text('mae:Q', format='.3f', title='Mean Absolute Error')
+).transform_calculate(
+    error=f"abs(datum.y - (({a_param.name} * datum.x * datum.x) + ({b_param.name} * datum.x) + {c_param.name}))"
+).transform_aggregate(
+    mae='mean(error)'
+)
+
+# Combine and show
+chart = (scatter + fit_line + mae_display).add_params(
+    a_param, b_param, c_param
+).properties(
+    width=600,
+    height=400,
+    title='Interactive Gradient Descent: Visualizing Parameter Optimization'
+).configure_title(
+    fontSize=18,
+    anchor='start',
+    color='#111'
+)
+
+chart
+```
 
 ### The Gradient
 
@@ -977,7 +1059,10 @@ Monitor training vs validation loss curves. If training loss keeps decreasing bu
 
 ## Video Explanation
 
-The video [What is a neural network?](https://www.youtube.com/watch?v=aircAruvnKk) is a 20-minute visualization of what we've covered in class—by 3Blue1Brown, which has excellent educational content. It goes through: what is a neural network, gradient descent, and shows the whole process with high qualiutyvisualizations 
+```{youtube} aircAruvnKk
+```
+
+The video [What is a neural network?](https://www.youtube.com/watch?v=aircAruvnKk) is a 20-minute visualization of what we've covered in class—by 3Blue1Brown, which has excellent educational content.
 
 
  It's part of a whole series by 3Blue1Brown on neural networks:
