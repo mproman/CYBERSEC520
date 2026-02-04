@@ -29,18 +29,20 @@ jupytext:
 This is an experimental format. The content of this page was adapted from Professor Roman's lecture in Fall 2025. Claude 4.5 was used to clean up the audio transcripts and adapt them for this format. AI may make mistakes. If you run into any issues please open an `Issue` or send an email to the TA [Sasank](mailto:sasank.g@duke.edu)
 :::
 
-# Class 04 - Introduction to Neural Networks
+# Introduction to Neural Networks
 
 Welcome to Class 4. Today we're getting into the foundational architecture that underpins modern AI: neural networks. We'll explore both theory and practice through an introduction to neural network fundamentals followed by a hands-on exploration lab. The lab focuses on building intuition rather than coding—you'll experiment with different parameters to understand how model architecture and hyperparameters impact training and performance.
 
+Quick note before we start: we're running a bit late today because of the career fair, and about half the class is still over there. For future reference, if there's an external event that conflicts with class and you want to attend, just give me a day or two heads-up. I can either shift the class time or cancel that week and roll the content into the next lecture. Just don't tell me 30 minutes before class starts when I'm already on campus.
 
 ## Today's Plan
 
 Here's what we're covering:
 1. Introduction to neural network architecture and mechanics
 2. Hands-on exploration lab using TensorFlow Playground (~45 minutes)
+3. *Originally planned to cover sequential models, but we're pushing that to next week given the depth we want in the hands-on work*
 
-We'll cover sequential models next week when we build a phishing detection model using natural language processing. We'll start it in class and you'll finish it as homework.
+We'll roll sequential models into next week's session when we build a phishing detection model using natural language processing. We'll start it in class and you'll finish it as homework.
 
 ## Revisiting Machine Learning
 
@@ -340,9 +342,93 @@ This is not a simple pattern—it has different frequencies mixed together. But 
 We have moved the interactive demonstration to a dedicated app for a better experience.
 :::
 
-```{raw} html
-<iframe src="https://cybersec520-universal-approx.streamlit.app/Class_04_Approximation/?embed=true" width="100%" height="600px" style="border:none;"></iframe>
+
+:::{note}
+**Interactive Demo**
+Move the slider below to see how increasing the number of neurons (segments) improves the approximation.
+:::
+
+```{code-cell} python
+:tags: [hide-input]
+import altair as alt
+import pandas as pd
+import numpy as np
+
+# 1. Define Functions
+def relu(x):
+    return np.maximum(0, x)
+
+def target_function(x):
+    return np.sin(x) + 0.5 * np.sin(3 * x)
+
+def get_approximation(n_segments, x_range):
+    """Compute ReLU approximation for a specific number of segments"""
+    y_true = target_function(x_range)
+    x_knots = np.linspace(-np.pi, np.pi, n_segments + 1)
+    y_knots = target_function(x_knots)
+    
+    slopes = np.diff(y_knots) / np.diff(x_knots)
+    intercepts = y_knots[:-1] - slopes * x_knots[:-1]
+    
+    y_approx = slopes[0] * x_range + intercepts[0]
+    for i in range(1, len(slopes)):
+        delta_slope = slopes[i] - slopes[i-1]
+        y_approx += delta_slope * relu(x_range - x_knots[i])
+        
+    return y_approx
+
+# 2. Pre-compute Data for Slider
+# We generate datasets for specific segment counts to simulate "interaction"
+x_vals = np.linspace(-np.pi, np.pi, 200)
+data_frames = []
+
+segment_options = [2, 5, 10, 20, 30, 50]
+
+for n in segment_options:
+    y_approx = get_approximation(n, x_vals)
+    y_true = target_function(x_vals) # Constant, but easier to tidy this way
+    
+    df_temp = pd.DataFrame({
+        'x': x_vals,
+        'Target Function': y_true,
+        'ReLU Approximation': y_approx,
+        'Segments': n
+    })
+    data_frames.append(df_temp)
+
+df = pd.concat(data_frames)
+
+# Melt for Altair (Target vs Approx)
+df_melted = df.melt(id_vars=['x', 'Segments'], 
+                    value_vars=['Target Function', 'ReLU Approximation'],
+                    var_name='Type', value_name='y')
+
+# 3. Create Altair Chart
+slider = alt.binding_range(min=2, max=50, step=1, name='Segments: ')
+# We map the slider to our closest pre-computed value logic or just use a discrete selection
+# A discrete selection is safer for pre-computed frames
+input_dropdown = alt.binding_select(options=segment_options, name='Segments ')
+selection = alt.selection_point(fields=['Segments'], bind=input_dropdown, value=5)
+
+chart = alt.Chart(df_melted).mark_line(size=3).encode(
+    x=alt.X('x', title='Input (x)'),
+    y=alt.Y('y', title='Output (y)'),
+    color=alt.Color('Type', scale=alt.Scale(domain=['Target Function', 'ReLU Approximation'],
+                                          range=['blue', 'red'])),
+    tooltip=['x', 'y', 'Type', 'Segments']
+).add_params(
+    selection
+).transform_filter(
+    selection
+).properties(
+    title='Universal Approximation Theorem (Interactive)',
+    width='container',
+    height=400
+).interactive()
+
+chart
 ```
+
 
 
 Start with just 2-3 segments—the approximation is pretty rough. You can see the general shape, but there's significant error. Now gradually increase to 10 segments—much better. At 20 segments, you're getting quite close. At 50 segments, the approximation is nearly indistinguishable from the target function. The error (shown in the right plot) shrinks dramatically as you add more ReLU functions.
