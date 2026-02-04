@@ -18,6 +18,7 @@ parts:
   - caption: "Module 2: Deep Learning Foundations"
     chapters:
     - file: content/06_deep_learning/Class04
+    - file: content/06_deep_learning/Class05
   - caption: "Module 3: Large Language Models (Coming Soon)"
     chapters:
     - file: content/08_llms/index
@@ -27,6 +28,7 @@ parts:
     - file: content/assignments/Assignment_1.ipynb
     #- file: content/assignments/Assignment_2.ipynb
     
+
 
 
 
