@@ -291,37 +291,46 @@ $$f(x) = \max(0, m_1x + b_1) + \max(0, m_2x + b_2)$$
 
 ```{code-cell} python
 :tags: [hide-input]
+import altair as alt
+import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from ipywidgets import interact, FloatSlider
 
-def relu(x):
-    return np.maximum(0, x)
+# Generate x values
+x = np.linspace(-2, 2, 200)
+df = pd.DataFrame({'x': x})
 
-def double_relu(m1, b1, m2, b2, x):
-    return relu(m1*x + b1) + relu(m2*x + b2)
+# Create sliders for parameters
+m1_slider = alt.binding_range(min=-3, max=3, step=0.1, name='Slope 1: ')
+m1_var = alt.param(bind=m1_slider, value=-2.2, name='m1')
 
-x = np.linspace(-2, 2, 1000)
+b1_slider = alt.binding_range(min=-3, max=3, step=0.1, name='Offset 1: ')
+b1_var = alt.param(bind=b1_slider, value=-2.2, name='b1')
 
-@interact(
-    m1=FloatSlider(min=-3, max=3, step=0.1, value=-2.2, description='Slope 1:'),
-    b1=FloatSlider(min=-3, max=3, step=0.1, value=-2.2, description='Offset 1:'),
-    m2=FloatSlider(min=-3, max=3, step=0.1, value=2.2, description='Slope 2:'),
-    b2=FloatSlider(min=-3, max=3, step=0.1, value=2.2, description='Offset 2:')
+m2_slider = alt.binding_range(min=-3, max=3, step=0.1, name='Slope 2: ')
+m2_var = alt.param(bind=m2_slider, value=2.2, name='m2')
+
+b2_slider = alt.binding_range(min=-3, max=3, step=0.1, name='Offset 2: ')
+b2_var = alt.param(bind=b2_slider, value=2.2, name='b2')
+
+# Define the calculation transform
+# Vega expression: max(0, m1*datum.x + b1) + max(0, m2*datum.x + b2)
+# Note: standard Vega expression syntax
+calc_expr = "max(0, m1 * datum.x + b1) + max(0, m2 * datum.x + b2)"
+
+chart = alt.Chart(df).mark_line(size=3, color='#2E86AB').encode(
+    x=alt.X('x', title='Input (x)'),
+    y=alt.Y('y:Q', title='Output (y)', scale=alt.Scale(domain=[-2, 6]))
+).transform_calculate(
+    y=calc_expr
+).add_params(
+    m1_var, b1_var, m2_var, b2_var
+).properties(
+    title='Combining Two ReLUs Creates Piecewise Linear Functions (Interactive)',
+    width='container',
+    height=400
 )
-def plot_double_relu(m1, b1, m2, b2):
-    y = double_relu(m1, b1, m2, b2, x)
-    plt.figure(figsize=(12, 6))
-    plt.plot(x, y, linewidth=3, color='#2E86AB')
-    plt.xlabel('Input (x)', fontsize=13)
-    plt.ylabel('Output (y)', fontsize=13)
-    plt.title('Combining Two ReLUs Creates Piecewise Linear Functions', 
-              fontsize=15, fontweight='bold')
-    plt.grid(True, alpha=0.3)
-    plt.ylim(-2, 6)
-    plt.axhline(y=0, color='k', linewidth=0.5)
-    plt.axvline(x=0, color='k', linewidth=0.5)
-    plt.show()
+
+chart
 ```
 
 With just two ReLUs, you can create a function with a "bend"—more complex than either ReLU alone. Play with the sliders and you'll see how adjusting slopes and offsets creates different shapes. Each additional ReLU adds another potential change in slope—another degree of freedom in the approximation.
